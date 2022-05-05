@@ -37,7 +37,24 @@ const results = !inputValue ? data : data.filter((value) => value.name.toLowerCa
 
   return (
     <>
-      <h1>Pokemon</h1>
+    <input type="text" onChange={handleChange} value={inputValue} />
+    <h1>Caracteres</h1>
+    {loading ? (
+        <h3>Cargando...</h3>
+      ) : error ? (
+        <h3>Error: {error.message}</h3>
+      ) : (
+        results.map((item, i) => {
+          return (
+            <div>
+            <h2 key={i}>{item.name}</h2>
+            
+            </div>  
+                   
+          )
+        })
+      )}
+  
     </>
   );
 };

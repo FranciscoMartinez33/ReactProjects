@@ -1,7 +1,8 @@
 import React from "react";
+import PokePerfil from "../PokePerfil";
 
 const Pokeinfo= ({data}) =>{
-    return(
+     return(
         <>
             {
                 (!data)?"":(

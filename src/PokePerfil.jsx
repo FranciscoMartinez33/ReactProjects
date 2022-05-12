@@ -15,7 +15,7 @@ const PokePerfil = (url) =>{
         try { const res = await axios (url);
 
             setState({
-                data: res.data,
+                data: res['data'],
                 loading: false,
             });
             

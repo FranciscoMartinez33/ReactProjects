@@ -19,7 +19,7 @@ export const useGetData = (url) => {
             const res = await axios (url);
 
             setState({
-                data: res.data.results,
+                data: res.data['results'],
                 error:null,
                 loading: false,
             });

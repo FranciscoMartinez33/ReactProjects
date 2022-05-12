@@ -1,24 +1,38 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Paginator = (data) =>{
-    const [pokemon, setPokemon] = useState([]);
-    const [arr, setArr]= useState([]);
-    
-    
-    var i = 0;
-    var j = 10;
-    
-    
-    console.log(data.slice(i,j));
-    
-    /*const getPokemon = async (data) => {
-      
-      pokeLista(data).map(async(item) =>{
-        const result = await axios.get(item.url);
-        setPokemon(result.data);
-      });
-    };*/
-    
+const Paginator = (data, loading) =>{
+  const [pokemon, setPokemon] = useState([]);
+  const [pokedex, setPokedex] = useState ();
+
+  const makeList = async () =>{
+    loading = true;
+    try {
+
+      let k = 0;
+      data.map(async (item) => {
+        const result = await axios(item.url);
+        if (k !== 1126) {
+          k = k + 1;
+          setPokedex(result.data);
+
+          if (k % 10 === 0) {
+            setPokemon(pokedex);
+            setPokedex();
+          }
+        }
+      })
+
+
+    } catch (error) {
+      console.log(error.message);
+    }
+    loading = false;
+
+  }
+useEffect(() =>{
+  makeList();
+}, [])
+return [pokemon, loading];
 };
 export default Paginator; 

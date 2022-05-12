@@ -6,81 +6,149 @@ import Pokeinfo from "./Components/Pokeinfo";
 import Card from "./Components/Card";
 import PokePerfil from "./PokePerfil";
 
-const List = () => {
-    const [data, loading, error] = useGetData("https://pokeapi.co/api/v2/pokemon?limit=100000");
-    const [inputValue, setInputValue] = useState("");
-    const [url, setUrl] = useState ("");
-    const [poke, load] = PokePerfil(url);
-    
-    
-     
 
-    /*const [pokemon, setPokemon] = useState([]);
-    const [pokedex, setPokedex] = useState ();
-  
-    
-    var i = 0;
-    var j = 10;
-    var arr = !data ? data : data.slice(i,j);
+const List = ({ data, loading, error, infoPokemon }) => {
+
+  const [url, setUrl] = useState("");
+
+  const [pokemon, setPokemon] = useState([]);
 
 
-    const getPokemon = async (arr) => {
-      loading = true;
-      arr.map(async (item) =>{
-        const result = await axios (item.url);
-        setPokemon(state => {
-          state = [...state, result.data]
-          state.sort((a,b)=>a.id>b.id?1:-1)
-          return state;
-        });
+  const [pokedex, setPokedex] = useState();
+  const [start, setStart] = useState(0);
+  const [end, setEnd] = useState(10);
+
+
+
+  var i = 0;
+  var j = 10;
+  const handlePrev = () => {
+    setStart(start - 10);
+    setEnd(end - 10);
+    if (start === -10 && end === 0) {
+      setStart(0);
+      setEnd(10);
+      getPokemon(data);
+    } else {
+      getPokemon(data);
+    }
+  };
+
+  const handleNext = () => {
+    setStart(start + 10);
+    setEnd(end + 10);
+    if (end >= 1130) {
+      setEnd(1126);
+      setStart(1120);
+      getPokemon(data);
+    } else {
+      getPokemon(data);
+    }
+  };
+  const getPokemon = async (data) => {
+    loading = true;
+    var arr = data.slice(start, end);
+    arr.map(async (item) => {
+      const result = await axios(item.url);
+      setPokemon(state => {
+        state = [...state, result.data]
+        state.sort((a, b) => a.id > b.id ? 1 : -1)
+        return state;
       });
-      loading= false;
-    };
-    console.log(pokemon);
-    useEffect(()=>{
-      getPokemon(arr);
-    },[])
-    */
-    
-    const handleChange = (e) => {
-        setInputValue(e.target.value.toLowerCase());
-        
-      };
-      
-      const results = !inputValue ? data : data.filter((value) => value.name.toLowerCase().includes(inputValue.toLocaleLowerCase()));
-    
-   /*return (
-     <>
-     <Paginator value={data}/>
-     </>
-   )
-   */
-    return(
+    });
+    loading = false;
+  };
+
+
+
+  useEffect(() => {
+    setPokemon([]);
+    getPokemon(data);
+  }, []);
+
+  useEffect(() => {
+  }, [handleNext]);
+  useEffect(() => {
+  }, [handlePrev]);
+
+
+
+
+
+
+
+  return (
     <>
-        <input type="text" onChange={handleChange} value={inputValue} />
-        <h1>Pokemon</h1>
-        <div className="right content">
-          <Pokeinfo data={poke} />
-        </div>
-        {loading ? (
-          <h3>Cargando...</h3>
-        ) : error ? (
-          <h3>Error: {error.message}</h3>
-        ) : (
-          results.map((item, i) => {
-            return (
-              <div className="card" onClick={
-                () => setUrl(item.url)
-              }>
-                <h2 key={i}>{item.name}</h2>
+
+      {loading ? (
+        <h3>Cargando...</h3>
+      ) : error ? (
+        <h3>Error: {error.message}</h3>
+      ) : (
+        pokemon.map((item, i) => {
+          return (
+
+            <div className ={item.types[0].type.name} onClick={()=>infoPokemon(item)}>
+              <div className="thumb detail">
+              <h3 key={i}>{item.name}</h3>
+              <img src={item.sprites.front_default} />
+            
               </div>
+            </div>
 
-            )
-          })
-        )}
+          )
+        })
+      )}
+      <button onClick={() => {
+        setPokemon([])
+        handlePrev()
+      }}>Prev</button>
+      <button onClick={() => {
+        setPokemon([])
+        handleNext()
+      }}>Next</button>
 
 
-      </>
-    )
+    </>
+  )
 };
 export default List;
+
+
+/*
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+export const useTrygetPokemon = (data, loading) =>{
+    const [pokemon, setPokemon] = useState([]);
+    const [pokedex, setPokedex] = useState ();
+
+    const makeList = async () =>{
+        try {
+            loading = true;
+          let k = 0;
+          data.map(async(item) =>{
+            const result = await axios (item.url);
+            if(k !== 1126){
+              k = k + 1;
+              setPokedex(result.data);
+               
+                if(k % 10 === 0){
+                  setPokemon(pokedex);
+                  setPokedex();
+                }
+            }
+          })
+          loading = false;
+            
+          } catch (error) {
+            console.log(error.message);
+          }
+   
+}
+useEffect(() =>{
+    makeList();
+}, [])
+return pokemon;
+};
+*/

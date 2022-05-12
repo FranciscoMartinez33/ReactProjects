@@ -33,25 +33,11 @@ const Main=()=>{
         });
       })
     };
-    /*const [datas, loading, error] = useGetData("https://pokeapi.co/api/v2/pokemon");
-  
-    const [inputValue, setInputValue] = useState("");
-
-
-
-  const handleChange = (e) => {
-    setInputValue(e.target.value.toLowerCase());
     
-   
-  };
-
-  const results = !inputValue ? datas.results : datas.results.filter((value) => value.name.toLowerCase().includes(inputValue.toLocaleLowerCase()));
-
-  */
     useEffect(()=>{
       pokeDo();
     },[url]);
-    //const [data, loading, error] =useGetData("https://pokeapi.co/api/v2/pokemon?limit=100000");
+ 
     
     return(
         <>

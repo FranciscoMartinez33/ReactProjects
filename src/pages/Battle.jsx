@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import PokePerfil from "./PokePerfil";
+import PokePerfil from "../components/PokePerfil";
 
 const Battle = () => {
     var randomNumber = Math.floor((Math.random() * 1126) + 1);
@@ -13,7 +13,7 @@ const Battle = () => {
     const [rlife, setRlife] = useState(0);
 
     
-    var moves = !data ? data : data.moves.slice(0, 4);
+    /*var moves = !data ? data : data.moves.slice(0, 4);
     setMoves(moves);
     var hp = !data ? data : data.stats.find(base_stat => base_stat.stat.name === 'hp');
     setLife(hp.map(item => { return (item.base_stat) }));
@@ -24,7 +24,7 @@ const Battle = () => {
     setRlife(hp2.map(item => { return (item.base_stat) }));
 
 
-    var rand = 0;
+    var rand = 0;*/
     
     /*const handleMove = async (direc) => {
        const res = await axios.get(direc);
@@ -58,7 +58,7 @@ const Battle = () => {
         }setRlife(rlife - res.data.power);
   
        
-    };*/
+    };
 
     const rattack = async (rand) => {
         const result = await axios.get(rmove[rand].url);

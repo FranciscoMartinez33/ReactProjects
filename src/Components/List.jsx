@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import useGetData from './hooks/useGetData';
+import useGetData from '../hooks/useGetData';
 import axios from 'axios';
-import Paginator from "./Paginator";
-import Pokeinfo from "./Components/Pokeinfo";
-import Card from "./Components/Card";
+
+import Card from "./Card";
 import PokePerfil from "./PokePerfil";
+import Separator from "./Separator";
 
 
 const List = ({ data, loading, error, infoPokemon }) => {
@@ -89,16 +89,14 @@ const List = ({ data, loading, error, infoPokemon }) => {
           return (
 
             <div className ={item.types[0].type.name} onClick={()=>infoPokemon(item)}>
-              <div className="thumb detail">
-              <h3 key={i}>{item.name}</h3>
-              <img src={item.sprites.front_default} />
-            
-              </div>
+              <Card pokemon={item} idx={i} />
+              
             </div>
 
           )
         })
       )}
+      <Separator height={"10px"} />
       <button onClick={() => {
         setPokemon([])
         handlePrev()

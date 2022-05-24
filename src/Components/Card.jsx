@@ -1,26 +1,14 @@
 import React from "react";
 
-const Card=({pokemon, loading, infoPokemon})=>{
-    
-    return(
+const Card = ({pokemon, idx}) =>{
+    return (
         <>
-            {
-                loading ? <h1>Loading....</h1> :
-                pokemon.map((item)=>{
-                    return (
-                        <>
-                            <div className="card" key={item.id} onClick={()=>infoPokemon(item)}>
-                                <h2>{item.id}</h2>
-                                <img src={item.sprites.front_default} alt="" />
-                                <h2>{item.name}</h2>
-                             </div>
-                         </>
-
-                     )
-                })
-            }
+            <div className="thumb-container">
+              <h3 key={idx}>{pokemon.name}</h3>
+              <img src={pokemon.sprites.front_default} />
+            </div>
         </>
-    
     )
 };
+
 export default Card;

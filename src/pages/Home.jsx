@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import useGetData from './hooks/useGetData';
+import useGetData from '../hooks/useGetData';
 import axios from 'axios';
-import List from "./List";
-import Results from "./Results";
-import Pokeinfo from "./Components/Pokeinfo";
+import List from "../components/List";
+import Results from "../components/Results";
+
+import PokePerfil from "../components/PokePerfil";
+import Separator from "../components/Separator";
 
 const Home = () => {
     const [data, loading, error] = useGetData("https://pokeapi.co/api/v2/pokemon?limit=100000");
@@ -34,7 +36,8 @@ const Home = () => {
             (results) ? (
               <div className="all-container">
                 <List data={data} loading={loading} error={error} infoPokemon={poke=>setPokeDex(poke)}/>
-                <Pokeinfo data={pokeDex}/>
+                <Separator height={"30px"} />
+                <PokePerfil data={pokeDex}/>
               </div>) : (
               <>
                 <div>

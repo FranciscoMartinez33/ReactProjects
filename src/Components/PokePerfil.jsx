@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import { PagesContext } from "../pages/PagesContext";
 
 
 const PokePerfil= ({data}) =>{
+    const context = useContext(PagesContext);
     return(
        <>
            {
@@ -38,7 +40,7 @@ const PokePerfil= ({data}) =>{
                        </div>
                         <div>
                         <Link to="/battle">
-                            <button>Elegir este pokemon</button>
+                            <button onClick ={context.setPoke(data)}>Elegir este pokemon</button>
                         </Link>
                         </div>
 

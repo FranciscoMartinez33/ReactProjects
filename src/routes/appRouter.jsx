@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes, Link, NavLink } from "react-router-dom";
-import Battle from "../pages/Battle";
+import Battle from "../pages/Battle/Battle";
 import Home from "../pages/Home";
 
 

@@ -1,30 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from 'axios';
-import PokePerfil from "../components/PokePerfil";
+import PokePerfil from "../../components/PokePerfil";
+import useBattle from "./useBattle";
+
+import useInfo from "./useInfo";
+import Player from "../../components/Player";
+import { PagesContext } from "../PagesContext";
 
 const Battle = () => {
+    
+    const context = useContext(PagesContext);
     var randomNumber = Math.floor((Math.random() * 1126) + 1);
     var url = (`https://pokeapi.co/api/v2/pokemon/${randomNumber}`);
-    const [move, setMoves] = useState([]);
-    const [rmove, setRmove] = useState([]);
-    const [data, load] = PokePerfil("https://pokeapi.co/api/v2/pokemon/pikachu");
-    const [data2, load2] = PokePerfil(url);
-    const [life, setLife] = useState(0);
-    const [rlife, setRlife] = useState(0);
-
+    const [move, setMoves] = useState ();
+    const [life, setLife] = useState (0);
+    const [rmove, setRmove] = useState ();
     
-    /*var moves = !data ? data : data.moves.slice(0, 4);
+    const [data2, load2, error2] = useBattle(url);
+    
+
+   // const [move2, life2] = useInfo(data2);    
+
+    /*
+    var moves = !context.poke ? context.poke : context.poke.moves.slice(0, 4);
     setMoves(moves);
-    var hp = !data ? data : data.stats.find(base_stat => base_stat.stat.name === 'hp');
-    setLife(hp.map(item => { return (item.base_stat) }));
+    
 
     var moves2 = !data2 ? data2 : data2.moves.slice(0, 4);
     setRmove(moves2);
     var hp2 = !data2 ? data2 : data2.stats.slice(0, 1);
-    setRlife(hp2.map(item => { return (item.base_stat) }));
+    setRlife(hp2);
 
 
-    var rand = 0;*/
+   /* var rand = 0;
     
     /*const handleMove = async (direc) => {
        const res = await axios.get(direc);
@@ -75,44 +83,13 @@ const Battle = () => {
 
     return (
         <>
-            {load ? <h1>Loading....</h1> :
-                (!data) ? "" : (
-                    <>
-                        <h3>Pokemon</h3>
-                        <div>
-                            <p>HP: {life}</p>
-
-
-                            <p>{data.name}</p>
-                            <img src={data.sprites.front_default} alt="" />
-                            <div> 
-                            </div>
-                            <p></p>
-                        </div>
-                    </>
-                )
-            }
-
             {load2 ? <h1>Loading....</h1> :
-                (!data2) ? "" : (
-                    <>
-                        <h3>Rival</h3>
-                        <div>
-
-
-                            <p>HP : {rlife}</p>
-
-
-
-                            <p>{data2.name}</p>
-
-                            <img src={data2.sprites.front_default} alt="" />
-                            <div> 
-                            </div>
-                        </div>
-                    </>
-                )
+               ""
             }
+
+            <h3>Rival</h3>
+            <Player pokemon={data2}/>
+            <Player pokemon={context.poke}/>
         </>
     )
 };

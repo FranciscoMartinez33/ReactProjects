@@ -6,10 +6,12 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 
 import AppRouter from './routes/appRouter';
+import Battle from './pages/Battle/Battle';
+import { PagesContext } from './pages/PagesContext';
 
 function App() {
-  const [pokemon, setPokemon] = useState("");
-  const [pokedex, setPokedex] = useState();
+  
+  const [poke, setPoke] = useState();
   
 
 
@@ -17,7 +19,9 @@ function App() {
 
 return(
   <>
-    <AppRouter />
+    <PagesContext.Provider value={{poke, setPoke}}>
+      <AppRouter />
+    </PagesContext.Provider >
 
   </>
 )

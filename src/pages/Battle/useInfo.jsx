@@ -1,30 +1,9 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
-export const useInfo = (character) => {
-    const [move, setMoves] = useState([]);
-    const [life, setLife] = useState(0);
 
-    const getInfo = () => {
-        let moves = character.moves.slice(0,4);
-        setMoves(moves);
-        let hp = character.stats.find(base_stat => base_stat.stat.name === 'hp');
-        setLife(hp);
-       
-    }
-
-    useEffect (()=> {
-        getInfo();
-    }, [character]);
-
-    return [ move, life];
-   
 /*
-    var moves2 = !data2 ? data2 : data2.moves.slice(0, 4);
-    setRmove(moves2);
-    var hp2 = !data2 ? data2 : data2.stats.slice(0, 1);
-    setRlife(hp2.map(item => { return (item.base_stat) }));
-
-
+ 
     var rand = 0;*/
     
     /*const handleMove = async (direc) => {
@@ -60,19 +39,37 @@ export const useInfo = (character) => {
   
        
     };
+*/
 
-    const rattack = async (rand) => {
-        const result = await axios.get(rmove[rand].url);
-        return result.data;
-    };
 
-    useEffect(() => {
 
-    }, [rattack(rand)]);
+export const pokeInfo =  {
+    tryGetHp: (character) => {
+        try {
+            const hp = character.stats[0].base_stat;
+            return hp;
+        } catch (error) {
+            return error;
+        }
+    },
 
-   /* useEffect(() => {
-
-    }, [handleMove]);*/
+    tryGetMoves: (character) => {
+       
+        try {
+            const moves = character.moves.slice(0,4);
+            return moves;
+        } catch (error) {
+            return  error;
+        }
+    }
 };
 
-export default useInfo;
+export const tryGetMove = async (url) => {
+    try {
+        const res = await axios (url);
+        return res.data;
+    } catch (error) {
+        return error;
+        
+    }
+};

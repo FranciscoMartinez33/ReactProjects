@@ -3,7 +3,7 @@ import axios from 'axios';
 import PokePerfil from "../../components/PokePerfil";
 import useBattle from "./useBattle";
 
-import useInfo from "./useInfo";
+import useInfo, { pokeInfo } from "./useInfo";
 import Player from "../../components/Player";
 import { PagesContext } from "../PagesContext";
 
@@ -12,12 +12,9 @@ const Battle = () => {
     const context = useContext(PagesContext);
     var randomNumber = Math.floor((Math.random() * 1126) + 1);
     var url = (`https://pokeapi.co/api/v2/pokemon/${randomNumber}`);
-    const [move, setMoves] = useState ();
-    const [life, setLife] = useState (0);
-    const [rmove, setRmove] = useState ();
-    
+   
     const [data2, load2, error2] = useBattle(url);
-    
+    const rlife = pokeInfo.tryGetHp(data2);
 
    // const [move2, life2] = useInfo(data2);    
 
@@ -84,11 +81,21 @@ const Battle = () => {
     return (
         <>
             {load2 ? <h1>Loading....</h1> :
-               ""
+            (!data2) ? "" : (
+            <>
+            <h3>Rival</h3>
+            <div>
+                <p>HP: {rlife} </p>
+
+
+                <p>{data2.name}</p>
+                <img src={data2.sprites.front_default} alt="" />
+            </div>
+            </>
+            )    
             }
 
-            <h3>Rival</h3>
-            <Player pokemon={data2}/>
+            
             <Player pokemon={context.poke}/>
         </>
     )
